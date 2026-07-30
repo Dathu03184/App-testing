@@ -68,7 +68,7 @@ const getOfflineFallback = (endpoint, method = 'GET', body = null) => {
 };
 
 // Helper to make fetch calls
-const BASE_URL = `http://${window.location.hostname}:5000/nuero_api`;
+const BASE_URL = `http://${window.location.hostname || 'localhost'}:5000/nuero_api`;
 const apiCall = async (endpoint, method = 'GET', body = null) => {
   const url = `${BASE_URL}/${endpoint}`;
   const headers = {
@@ -91,13 +91,18 @@ const apiCall = async (endpoint, method = 'GET', body = null) => {
 
   try {
     const response = await fetch(url, config);
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const data = await response.json();
+      return data;
+    }
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(errorText || 'Network response was not ok');
+      throw new Error(errorText || `Server responded with status ${response.status}`);
     }
-    return await response.json();
+    return { success: true };
   } catch (err) {
-    console.warn(`API Error/Server unreachable on ${endpoint}. Operating in resilient offline fallback mode.`);
+    console.warn(`API Error/Server unreachable on ${endpoint}. Operating in resilient offline fallback mode. Error:`, err.message);
     return getOfflineFallback(endpoint, method, body);
   }
 };
