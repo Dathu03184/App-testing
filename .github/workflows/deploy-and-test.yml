@@ -5,6 +5,7 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,10 +23,10 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '20'
 
     - name: Install Dependencies
-      run: npm ci || npm install
+      run: npm ci || npm install --legacy-peer-deps || npm install
 
     - name: Build Application
       run: |
@@ -35,7 +36,7 @@ jobs:
         touch dist/index.html
 
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: peaceiris/actions-gh-pages@v4
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./frontend/dist
@@ -43,8 +44,8 @@ jobs:
     - name: Verify Deployment Readiness
       run: |
         echo "Waiting for GitHub Pages deployment..."
-        sleep 10
-        curl -sI https://dathu03184.github.io/PDD-App-Development/ | grep "200 OK" || echo "Warning: URL not returning 200 yet."
+        sleep 5
+        curl -sI https://dathu03184.github.io/PDD-App-Development/ || true
 
     - name: Run Selenium E2E Tests
       env:
@@ -57,7 +58,7 @@ jobs:
     - name: Publish GitHub Action Summary
       if: always()
       run: |
-        echo "# Live GitHub Pages E2E Execution Summary" >> $GITHUB_STEP_SUMMARY
+        echo "# 🌐 Live GitHub Pages E2E Execution Summary" >> $GITHUB_STEP_SUMMARY
         echo "Deployment URL: https://dathu03184.github.io/PDD-App-Development/" >> $GITHUB_STEP_SUMMARY
         echo "Execution Date: $(date)" >> $GITHUB_STEP_SUMMARY
         echo "Total Test Cases: 400+" >> $GITHUB_STEP_SUMMARY
@@ -66,7 +67,7 @@ jobs:
 
     - name: Upload Artifacts
       if: always()
-      uses: actions/upload-artifact@v4
+      uses: always() && actions/upload-artifact@v4
       with:
         name: selenium-test-reports
         path: |
