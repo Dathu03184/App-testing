@@ -68,6 +68,7 @@ const getOfflineFallback = (endpoint, method = 'GET', body = null) => {
 };
 
 // Helper to make fetch calls
+const BASE_URL = `http://${window.location.hostname}:5000/nuero_api`;
 const apiCall = async (endpoint, method = 'GET', body = null) => {
   const url = `${BASE_URL}/${endpoint}`;
   const headers = {
