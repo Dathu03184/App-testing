@@ -61,6 +61,9 @@ const getOfflineFallback = (endpoint, method = 'GET', body = null) => {
       { _id: 'm2', name: 'Atorvastatin', dosage: '20mg', frequency: 'At Bedtime', status: 'pending' }
     ]};
   }
+  if (ep.includes('count_clinician_scores.php')) {
+    return { success: true, count: 4 };
+  }
   if (ep.includes('ai_chat.php')) {
     return { success: true, reply: 'Based on clinical guidelines for motor recovery, consistency is key. Ensure patient takes a 5-minute rest between exercises and monitors blood pressure levels before therapy sessions.' };
   }

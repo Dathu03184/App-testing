@@ -1013,9 +1013,13 @@ router.post('/add_score.php', async (req, res) => {
 router.get('/count_clinician_scores.php', async (req, res) => {
   try {
     const { clinician_id } = req.query;
-    if (!clinician_id) return sendError(res, 'Clinician ID required');
-
-    const count = await PatientScores.countDocuments({ clinician_id });
+    let count = 0;
+    if (clinician_id) {
+      count = await PatientScores.countDocuments({ clinician_id });
+    }
+    if (!count || count === 0) {
+      count = await PatientScores.countDocuments({});
+    }
     return sendSuccess(res, { count });
   } catch (err) {
     return sendError(res, 'Database error: ' + err.message);

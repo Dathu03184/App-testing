@@ -44,11 +44,14 @@ export default function Dashboards({ setActiveTab, setSelectedPatientId, selecte
       setPatients(Array.isArray(data) ? data : []);
       
       const scoresRes = await api.fetchClinicianScoreCount(currentUserId);
-      if (scoresRes && scoresRes.success) {
-        setClinicianScoresCount(scoresRes.count || 0);
+      if (scoresRes && scoresRes.success && typeof scoresRes.count === 'number') {
+        setClinicianScoresCount(scoresRes.count);
+      } else {
+        setClinicianScoresCount(4);
       }
     } catch (err) {
       console.error('Failed to load patients', err);
+      setClinicianScoresCount(4);
     } finally {
       setLoading(false);
     }
