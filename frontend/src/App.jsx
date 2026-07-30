@@ -69,7 +69,8 @@ export default function App() {
       {activeTab === 'dashboard' && (
         <Dashboards 
           setActiveTab={setActiveTab} 
-          setSelectedPatientId={setSelectedPatientId} 
+          setSelectedPatientId={setSelectedPatientId}
+          selectedPatientId={selectedPatientId} 
           onNavigateToPatientRegistration={handleNavigateToPatientRegistration}
         />
       )}

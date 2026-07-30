@@ -422,7 +422,6 @@ export default function Calendar({ onBack }) {
                       <span style={{
                         fontSize: '0.85rem',
                         fontWeight: cell.isToday || cell.isSelected ? '900' : '600',
-                        color: cell.isToday ? '#3B82F6' : cell.isSelected ? '#059669' : 'var(--text-primary)',
                         width: '24px', height: '24px', borderRadius: '50%',
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                         background: cell.isToday ? '#3B82F6' : cell.isSelected ? '#059669' : 'transparent',

@@ -3,7 +3,7 @@ import { api } from '../utils/api';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { Search, UserPlus, Calculator, Activity, MessageSquare, FileText, User, Calendar, Phone, MapPin, Plus, Heart, Pill, Bell, TrendingUp, Target } from 'lucide-react';
 
-export default function Dashboards({ setActiveTab, setSelectedPatientId, onNavigateToPatientRegistration }) {
+export default function Dashboards({ setActiveTab, setSelectedPatientId, selectedPatientId, onNavigateToPatientRegistration }) {
   const role = localStorage.getItem('role') || 'doctor';
   const name = localStorage.getItem('name') || 'User';
   const currentUserId = role === 'doctor' ? localStorage.getItem('doctor_id') : localStorage.getItem('patient_id');
@@ -28,10 +28,13 @@ export default function Dashboards({ setActiveTab, setSelectedPatientId, onNavig
   useEffect(() => {
     if (role === 'doctor') {
       loadPatients();
+      if (selectedPatientId) {
+        loadPatientDetails(selectedPatientId);
+      }
     } else {
       loadPatientDetails();
     }
-  }, [role]);
+  }, [role, selectedPatientId]);
 
   // --- Clinician Actions ---
   const loadPatients = async () => {
@@ -51,24 +54,24 @@ export default function Dashboards({ setActiveTab, setSelectedPatientId, onNavig
     }
   };
 
-  // Direct redirect handler is passed as a prop
-
   const handleAction = (tab, patientId) => {
     setSelectedPatientId(patientId);
     setActiveTab(tab);
   };
 
   // --- Patient Actions ---
-  const loadPatientDetails = async () => {
+  const loadPatientDetails = async (targetId = null) => {
+    const target = targetId || (role === 'doctor' ? selectedPatientId : currentUserId);
+    if (!target) return;
     setLoading(true);
     try {
       // Fetch Profile
-      const profileRes = await api.validatePatient(currentUserId);
+      const profileRes = await api.validatePatient(target);
       if (profileRes.success) {
         setPatientProfile(profileRes);
       }
 
-      const scoresData = await api.fetchScores(currentUserId);
+      const scoresData = await api.fetchScores(target);
       if (Array.isArray(scoresData)) {
         // Format for Recharts (reverse to get chronological order)
         const sorted = [...scoresData]
@@ -83,7 +86,7 @@ export default function Dashboards({ setActiveTab, setSelectedPatientId, onNavig
       }
 
       // Fetch Rehab Progress
-      const rehabData = await api.fetchRehab(currentUserId);
+      const rehabData = await api.fetchRehab(target);
       if (Array.isArray(rehabData)) {
         const total = rehabData.length;
         const completed = rehabData.filter(item => item.isCompleted).length;
@@ -91,7 +94,7 @@ export default function Dashboards({ setActiveTab, setSelectedPatientId, onNavig
       }
 
       // Fetch Reports count
-      const reportsRes = await api.fetchReports(currentUserId);
+      const reportsRes = await api.fetchReports(target);
       if (reportsRes.success && Array.isArray(reportsRes.data)) {
         setRecentReportsCount(reportsRes.data.length);
       }
@@ -109,9 +112,9 @@ export default function Dashboards({ setActiveTab, setSelectedPatientId, onNavig
   );
 
   // ----------------------------------------------------
-  // CLINICIAN INTERFACE
+  // CLINICIAN INTERFACE (OVERVIEW ROSTER)
   // ----------------------------------------------------
-  if (role === 'doctor') {
+  if (role === 'doctor' && !selectedPatientId) {
     return (
       <div className="main-content" style={{ background: 'var(--brand-bg)', minHeight: '100vh', padding: '2rem' }}>
         <div className="portal-header" style={{ alignItems: 'flex-start', marginBottom: '2.5rem' }}>
@@ -169,16 +172,24 @@ export default function Dashboards({ setActiveTab, setSelectedPatientId, onNavig
   return (
     <div className="main-content" style={{ background: '#FFFAFA', minHeight: '100vh', padding: '3rem 4rem' }}>
       
+      {role === 'doctor' && selectedPatientId && (
+        <div style={{ marginBottom: '2rem' }}>
+          <button className="btn-secondary" onClick={() => setSelectedPatientId('')} style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.6rem 1.2rem', fontWeight: 'bold' }}>
+            ← Back to Patient Roster
+          </button>
+        </div>
+      )}
+
       {/* Mobile App Style Header */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3rem' }}>
         <div>
           <span style={{ color: '#10B981', fontWeight: '800', fontSize: '1rem', letterSpacing: '0.5px' }}>Good to see you again</span>
           <h1 style={{ fontSize: '2.8rem', color: '#431407', margin: '0.5rem 0', lineHeight: 1.1, fontWeight: '900' }}>
-            Hello,<br />{name}
+            Hello,<br />{role === 'doctor' && selectedPatientId ? (patientProfile?.name || 'Patient') : name}
           </h1>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginTop: '1.2rem' }}>
             <div style={{ background: '#431407', color: 'white', padding: '0.5rem 1rem', borderRadius: '10px', fontSize: '0.85rem', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <FileText size={14} /> ID: {patientProfile?.patient_id || 'PidXXXXX'}
+              <FileText size={14} /> ID: {patientProfile?.patient_id || selectedPatientId || 'PidXXXXX'}
             </div>
             <span style={{ color: '#10B981', fontWeight: '800', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '1px' }}>Patient Dashboard</span>
           </div>

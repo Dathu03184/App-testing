@@ -221,7 +221,7 @@ export default function Reports({ patientId, setActiveTab, setSelectedPatientId 
                           style={{ transition: 'background 0.2s', borderBottom: '1px solid #F1F5F9', cursor: 'pointer' }}
                           onClick={(e) => {
                             if (!e.target.closest('.action-btn')) {
-                              handleAction('reports', p.patient_id);
+                              handleAction('dashboard', p.patient_id);
                             }
                           }}
                         >
@@ -230,7 +230,16 @@ export default function Reports({ patientId, setActiveTab, setSelectedPatientId 
                               {p.patient_id}
                             </div>
                           </td>
-                          <td style={{ fontWeight: '700', color: 'var(--brand-secondary)' }}>{p.name}</td>
+                          <td 
+                            style={{ fontWeight: '700', color: 'var(--brand-primary)', cursor: 'pointer', textDecoration: 'underline' }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleAction('dashboard', p.patient_id);
+                            }}
+                            title="Click to view patient dashboard"
+                          >
+                            {p.name}
+                          </td>
                           <td>
                             <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{p.age} yrs • {p.gender}</span>
                           </td>
