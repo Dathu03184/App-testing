@@ -1,0 +1,372 @@
+/* ----------------------------------------------------
+   NEUROPREDICT GLOBAL CSS STYLING & DESIGN SYSTEM
+   Theme: Warm Sunset Orange & White Coffee (FigmaTheme)
+   ---------------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  /* Branding Colors (Vibrant Medical Green & White Theme) */
+  --brand-primary: #039855;       /* Vibrant Medical Green */
+  --brand-primary-rgb: 3, 152, 85;
+  --brand-secondary: #064E3B;     /* Deep Forest Green */
+  --brand-accent: #34D399;        /* Mint Accent */
+  --brand-bg: #F0FDF4;            /* Soft Mint Cream BG */
+  --brand-surface: #FFFFFF;       /* Pure White Card Surface */
+  
+  /* Text System */
+  --text-primary: #1F2937;        /* Gray 800 */
+  --text-secondary: #4B5563;      /* Gray 600 */
+  --brand-border: #D1D5DB;        /* Gray 300 */
+
+  /* State Tones */
+  --brand-success: #10B981;       /* Emerald */
+  --brand-warning: #F59E0B;       /* Amber */
+  --brand-error: #EF4444;         /* Crimson Red */
+  --brand-info: #0EA5E9;          /* Sky Blue */
+
+  /* Gradient Blends */
+  --modern-gradient: linear-gradient(135deg, #059669 0%, #34D399 100%);
+  --sunset-gradient: linear-gradient(135deg, var(--brand-primary) 0%, #027A48 100%);
+  
+  /* Layout Controls */
+  --font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --border-radius-lg: 24px;
+  --border-radius-md: 16px;
+  --border-radius-sm: 10px;
+  --shadow-sm: 0 4px 6px -1px rgba(67, 20, 7, 0.05), 0 2px 4px -1px rgba(67, 20, 7, 0.03);
+  --shadow-md: 0 10px 20px -5px rgba(67, 20, 7, 0.08), 0 8px 16px -6px rgba(67, 20, 7, 0.05);
+  --shadow-lg: 0 20px 35px -10px rgba(67, 20, 7, 0.12), 0 10px 20px -10px rgba(67, 20, 7, 0.06);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ----------------------------------------------------
+   BASE STYLES & RESETS
+   ---------------------------------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--brand-bg);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--brand-primary);
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+a:hover {
+  color: var(--brand-secondary);
+}
+
+button {
+  font-family: var(--font-family);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: none;
+  transition: var(--transition-smooth);
+}
+
+input, select, textarea {
+  font-family: var(--font-family);
+  outline: none;
+  border: 1px solid var(--brand-border);
+  transition: var(--transition-smooth);
+}
+
+/* Scrollbar styles */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--brand-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--brand-border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* ----------------------------------------------------
+   TYPOGRAPHY
+   ---------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--brand-secondary);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.title-display {
+  font-size: 2.2rem;
+  font-weight: 800;
+  background: var(--sunset-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--brand-primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* ----------------------------------------------------
+   LAYOUT CONTAINERS
+   ---------------------------------------------------- */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  position: relative;
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  overflow-y: auto;
+  height: 100vh;
+}
+
+/* ----------------------------------------------------
+   CARDS & UTILITY SURFACES
+   ---------------------------------------------------- */
+.clinical-card {
+  background: var(--brand-surface);
+  border-radius: var(--border-radius-lg);
+  padding: 1.8rem;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(231, 229, 228, 0.6);
+  transition: var(--transition-smooth);
+}
+
+.clinical-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card-header-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(249, 115, 22, 0.1);
+  color: var(--brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+/* Status Tags */
+.status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-tag.low {
+  background-color: rgba(16, 185, 129, 0.12);
+  color: var(--brand-success);
+}
+
+.status-tag.moderate {
+  background-color: rgba(245, 158, 11, 0.12);
+  color: var(--brand-warning);
+}
+
+.status-tag.high {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: var(--brand-error);
+}
+
+/* ----------------------------------------------------
+   BUTTON STYLES
+   ---------------------------------------------------- */
+.btn-primary {
+  background: var(--sunset-gradient);
+  color: #FFFFFF;
+  font-weight: 700;
+  padding: 1rem 1.8rem;
+  border-radius: var(--border-radius-md);
+  box-shadow: 0 4px 14px 0 rgba(249, 115, 22, 0.3);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.95rem;
+  justify-content: center;
+}
+
+.btn-primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px 0 rgba(249, 115, 22, 0.4);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--brand-secondary);
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 1rem 1.8rem;
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  justify-content: center;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: #2D0B03;
+}
+
+.btn-flat {
+  color: var(--brand-primary);
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-flat:hover {
+  color: var(--brand-secondary);
+  transform: translateX(2px);
+}
+
+/* ----------------------------------------------------
+   FORM INPUT STYLES
+   ---------------------------------------------------- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 1.1rem;
+  color: var(--brand-primary);
+}
+
+.form-input {
+  width: 100%;
+  padding: 1rem 1.2rem 1rem 3rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--brand-border);
+  background-color: var(--brand-surface);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  box-shadow: inset 0 2px 4px 0 rgba(67, 20, 7, 0.01);
+}
+
+.form-input:focus {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+}
+
+.form-select {
+  appearance: none;
+  width: 100%;
+  padding: 1rem 2rem 1rem 1.2rem;
+  border-radius: var(--border-radius-md);
+  border: 1px solid var(--brand-border);
+  background: var(--brand-surface) url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23F97316' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 1.1rem center/1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.form-select:focus {
+  border-color: var(--brand-primary);
+}
+
+/* Segmented Picker */
+.segmented-picker {
+  display: flex;
+  background: rgba(67, 20, 7, 0.05);
+  padding: 4px;
+  border-radius: 12px;
+  border: 1px solid var(--brand-border);
+}
+
+.segmented-option {
+  flex: 1;
+  text-align: center;
+  padding: 0.6rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border-radius: 8px;
+  color: var(--text-secondary);
+}
+
+.segmented-option.active {
+  background: var(--brand-surface);
+  color: var(--brand-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ----------------------------------------------------
+   RESPONSIVENESS (BREAKPOINTS)
+   ---------------------------------------------------- */
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column;
+  }
+  
+  .main-content {
+    height: calc(100vh - 60px); /* Adjust for mobile header */
+    padding: 1rem;
+  }
+}
